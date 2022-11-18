@@ -21,3 +21,5 @@ void inserirDistancia(Dados *dados, int distancia, int i, int j);
 void calculaDistanciaMinima(Dados *dados);
 
 void calculaQuantidadeCaminho(Dados *dados);
+
+bool gerarCasoTeste(char nomeArquivoTeste[], int N, int M, int numeroMinimo, int numeroMaximo);

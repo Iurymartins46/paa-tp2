@@ -14,6 +14,7 @@ int main(){
 
     calculaDistanciaMinima(&dados);
     calculaQuantidadeCaminho(&dados);
+    
     for(i = 0; i < dados.N; i++){
         for(j = 0; j < dados.M; j++){
             printf("%-6d ", dados.grid[i][j]);
@@ -35,6 +36,8 @@ int main(){
         printf("\n");
     }
     printf("\n");
+    srand(time(NULL));
+    bool a = gerarCasoTeste("test04", 10, 10, 1, 10);
     printf("--------------------------------------------------------------------------------------\n");
     return 0;
 }
