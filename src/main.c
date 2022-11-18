@@ -12,8 +12,11 @@ int main(){
         return 0;
     }
 
+    clock_t tempoIncial = clock();
     calculaDistanciaMinima(&dados);
     calculaQuantidadeCaminho(&dados);
+    clock_t tempoFinal = clock();
+
     for(i = 0; i < dados.N; i++){
         for(j = 0; j < dados.M; j++){
             printf("%-6d ", dados.grid[i][j]);
@@ -36,5 +39,6 @@ int main(){
     }
     printf("\n");
     printf("--------------------------------------------------------------------------------------\n");
+    printf("Tempo de execucao: %f ms\n", ((float)(tempoFinal-tempoIncial)) * 1000/(CLOCKS_PER_SEC));
     return 0;
 }
