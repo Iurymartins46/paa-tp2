@@ -2,7 +2,7 @@
 
 bool leituraDados(Dados *dados){
     int N, M, distancia, i, j;
-    char nomeArquivo[50] = "test02";
+    char nomeArquivo[50] = "test03";
     char diretorio[100];
     strcpy(diretorio, "tests/");
     strcat(strcat(diretorio, nomeArquivo), ".txt");
@@ -90,4 +90,28 @@ void calculaQuantidadeCaminho(Dados *dados){
             }
         }
     }
+}
+
+bool gerarCasoTeste(char nomeArquivoTeste[], int N, int M, int numeroMinimo, int numeroMaximo){
+    int i, j, numero;
+    char diretorio[100];
+    strcpy(diretorio, "tests/");
+    strcat(strcat(diretorio, nomeArquivoTeste), ".txt");
+    FILE *file;
+    file = fopen(diretorio,"w");
+    if(file == NULL){
+        printf("\nErro na criacao do arquivo de teste !!!!!!!!\n\n");
+        return false;
+    }
+    fprintf(file, "%d %d\n", N, M);
+    for(i = 0; i < N; i++){
+        for(j = 0; j < M; j++){
+            numero = numeroMinimo + (rand() % (numeroMaximo - numeroMinimo + 1));
+            fprintf(file, "%d ", numero);
+        }
+        fprintf(file, "\n");
+    }
+
+    fclose(file);
+    return true;
 }

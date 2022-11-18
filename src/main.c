@@ -38,6 +38,8 @@ int main(){
         printf("\n");
     }
     printf("\n");
+    srand(time(NULL));
+    bool a = gerarCasoTeste("test04", 10, 10, 1, 10);
     printf("--------------------------------------------------------------------------------------\n");
     printf("Tempo de execucao: %f ms\n", ((float)(tempoFinal-tempoIncial)) * 1000/(CLOCKS_PER_SEC));
     return 0;
