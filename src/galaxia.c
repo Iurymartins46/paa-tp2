@@ -29,9 +29,11 @@ void inicializaMatriz(Dados *dados, int N, int M){
     dados->M = M;
     dados->grid = (int**)malloc(N * sizeof(int*));
     dados->distanciaMinima = (int**)malloc(N * sizeof(int*));
+    dados->quantidadeCaminho = (int**)malloc(N * sizeof(int*));
     for(int i = 0; i < N; i++){
         dados->grid[i] = (int*)malloc(M * sizeof(int));
         dados->distanciaMinima[i] = (int*)malloc(M * sizeof(int));
+        dados->quantidadeCaminho[i] = (int*)calloc(M, sizeof(int));
     }
 }
 
@@ -40,7 +42,7 @@ void inserirDistancia(Dados *dados, int distancia, int i, int j){
     dados->distanciaMinima[i][j] = distancia;
 }
 
-void determinarDistanciaMinima(Dados *dados){
+void calculaDistanciaMinima(Dados *dados){
     int i, j;
     for(i = dados->N - 1; i >= 0; i--){
         for(j = dados->M - 1; j >= 0; j--){
@@ -65,4 +67,27 @@ void determinarDistanciaMinima(Dados *dados){
     }
 }
 
-
+void calculaQuantidadeCaminho(Dados *dados){
+    int i, j;
+    for(i = dados->N - 1; i >= 0; i--){
+        for(j = dados->M - 1; j >= 0; j--){
+            if(i == dados->N - 1 && j == dados->M - 1){
+                dados->quantidadeCaminho[i][j] = 1;
+            }
+            else if(i == dados->N - 1 || j == dados->M - 1){
+                dados->quantidadeCaminho[i][j] = 1;
+            }
+            else{
+                if(dados->distanciaMinima[i][j + 1] < dados->distanciaMinima[i + 1][j]){
+                    dados->quantidadeCaminho[i][j] = dados->quantidadeCaminho[i][j + 1];
+                }
+                else if(dados->distanciaMinima[i + 1][j] < dados->distanciaMinima[i][j + 1]){
+                    dados->quantidadeCaminho[i][j] = dados->quantidadeCaminho[i + 1][j];
+                }
+                else{
+                    dados->quantidadeCaminho[i][j] = dados->quantidadeCaminho[i + 1][j] + dados->quantidadeCaminho[i][j + 1];
+                }
+            }
+        }
+    }
+}

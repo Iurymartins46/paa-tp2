@@ -7,6 +7,7 @@
 typedef struct{
     int **grid;
     int **distanciaMinima;
+    int **quantidadeCaminho;
     int N;
     int M;
 }Dados;
@@ -17,5 +18,6 @@ void inicializaMatriz(Dados *dados, int N, int M);
 
 void inserirDistancia(Dados *dados, int distancia, int i, int j);
 
-void determinarDistanciaMinima(Dados *dados);
+void calculaDistanciaMinima(Dados *dados);
 
+void calculaQuantidadeCaminho(Dados *dados);

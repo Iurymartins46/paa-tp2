@@ -12,17 +12,25 @@ int main(){
         return 0;
     }
 
-    determinarDistanciaMinima(&dados);
+    calculaDistanciaMinima(&dados);
+    calculaQuantidadeCaminho(&dados);
     for(i = 0; i < dados.N; i++){
         for(j = 0; j < dados.M; j++){
-            printf("%-3d ", dados.grid[i][j]);
+            printf("%-6d ", dados.grid[i][j]);
         }
         printf("\n");
     }
     printf("\n");
     for(i = 0; i < dados.N; i++){
         for(j = 0; j < dados.M; j++){
-            printf("%-3d ", dados.distanciaMinima[i][j]);
+            printf("%-6d ", dados.distanciaMinima[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+    for(i = 0; i < dados.N; i++){
+        for(j = 0; j < dados.M; j++){
+            printf("%-6d ", dados.quantidadeCaminho[i][j]);
         }
         printf("\n");
     }
