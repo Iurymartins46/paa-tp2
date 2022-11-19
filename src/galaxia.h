@@ -12,6 +12,13 @@ typedef struct{
     int M;
 }Dados;
 
+typedef struct{
+    int i;
+    int j;
+    int i2;
+    int j2;
+}Celula;
+
 bool leituraDados(Dados *dados);
 
 void inicializaMatriz(Dados *dados, int N, int M);
@@ -23,3 +30,7 @@ void calculaDistanciaMinima(Dados *dados);
 void calculaQuantidadeCaminho(Dados *dados);
 
 bool gerarCasoTeste(char nomeArquivoTeste[], int N, int M, int numeroMinimo, int numeroMaximo);
+
+void imprimeCaminhos(Dados *dados);
+
+void imprimeCaminhosAux(Dados *dados, char* caminhos, Celula** caminho, int linha, int coluna);

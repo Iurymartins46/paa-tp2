@@ -17,6 +17,7 @@ int main(){
     calculaQuantidadeCaminho(&dados);
     clock_t tempoFinal = clock();
 
+
     for(i = 0; i < dados.N; i++){
         for(j = 0; j < dados.M; j++){
             printf("%-6d ", dados.grid[i][j]);
@@ -38,8 +39,11 @@ int main(){
         printf("\n");
     }
     printf("\n");
+
+    imprimeCaminhos(&dados);
+
     srand(time(NULL));
-    bool a = gerarCasoTeste("test04", 10, 10, 1, 10);
+    bool a = gerarCasoTeste("randon", 10, 10, 1, 10);
     printf("--------------------------------------------------------------------------------------\n");
     printf("Tempo de execucao: %f ms\n", ((float)(tempoFinal-tempoIncial)) * 1000/(CLOCKS_PER_SEC));
     return 0;

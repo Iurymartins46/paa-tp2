@@ -2,7 +2,7 @@
 
 bool leituraDados(Dados *dados){
     int N, M, distancia, i, j;
-    char nomeArquivo[50] = "test03";
+    char nomeArquivo[50] = "testPaint";
     char diretorio[100];
     strcpy(diretorio, "tests/");
     strcat(strcat(diretorio, nomeArquivo), ".txt");
@@ -89,6 +89,65 @@ void calculaQuantidadeCaminho(Dados *dados){
                 }
             }
         }
+    }
+}
+
+void imprimeCaminhos(Dados *dados){
+    Celula **caminho;
+    caminho = (Celula**)malloc(dados->N * sizeof(Celula*));
+    for (int i = 0; i < dados->N; i++){
+        caminho[i] = (Celula*)calloc(dados->M, sizeof(Celula));
+        for (int j = 0; j < dados->M; j++){
+            caminho[i][j].i = -1;
+            caminho[i][j].i2 = -1;
+            caminho[i][j].j = -1;
+            caminho[i][j].j2 = -1;
+        }
+    }
+    for(int i = 0; i < dados->N ; i++){
+        for(int j = 0; j < dados->M; j++){
+            if (i == dados->N - 1 && j == dados->M - 1){
+                caminho[i][j].i = -2;
+                caminho[i][j].j = -2;
+            }else if (i == dados->M - 1 && j < dados->M - 1){
+                caminho[i][j].i = i;
+                caminho[i][j].j = j + 1;
+            }else if (i < dados->M - 1 && j == dados->M - 1){
+                caminho[i][j].i = i + 1;
+                caminho[i][j].j = j;
+            }else{
+                if (i != dados->N - 1 && j != dados->M - 1){
+                    if(dados->distanciaMinima[i][j + 1] < dados->distanciaMinima[i + 1][j]){
+                        caminho[i][j].i = i;
+                        caminho[i][j].j = j + 1;
+                    }else if(dados->distanciaMinima[i + 1][j] < dados->distanciaMinima[i][j + 1]){
+                        caminho[i][j].i = i + 1;
+                        caminho[i][j].j = j;
+                    }else{
+                        caminho[i][j].i = i;
+                        caminho[i][j].j = j + 1;
+                        caminho[i][j].i2 = i + 1;
+                        caminho[i][j].j2 = j;
+                    }
+                }
+            }
+        }
+    }
+
+    char *stringCamninhos = (char*)malloc(sizeof(char));
+
+    imprimeCaminhosAux(dados, stringCamninhos, caminho, 0, 0);
+    puts("\n");
+}
+
+void imprimeCaminhosAux(Dados *dados, char* caminhos, Celula** caminho, int linha, int coluna){
+    printf("(%d, %d) ", linha, coluna);
+    if (caminho[linha][coluna].i == -2){
+        return;
+    }
+    imprimeCaminhosAux(dados, caminhos, caminho, caminho[linha][coluna].i, caminho[linha][coluna].j);
+    if (caminho[linha][coluna].i2 != -1){
+        imprimeCaminhosAux(dados, caminhos, caminho, caminho[linha][coluna].i2, caminho[linha][coluna].j2);
     }
 }
 
