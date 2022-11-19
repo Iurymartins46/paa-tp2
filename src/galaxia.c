@@ -1,8 +1,11 @@
 #include "galaxia.h"
 
+void imprimerCaminhoInterno(Dados *dados, char *caminho, int *caminhosMostrados, int linha, int coluna);
+
+
 bool leituraDados(Dados *dados){
     int N, M, distancia, i, j;
-    char nomeArquivo[50] = "testPaint";
+    char nomeArquivo[50] = "randon";
     char diretorio[100];
     strcpy(diretorio, "tests/");
     strcat(strcat(diretorio, nomeArquivo), ".txt");
@@ -42,7 +45,7 @@ void inserirDistancia(Dados *dados, int distancia, int i, int j){
     dados->distanciaMinima[i][j] = distancia;
 }
 
-void calculaDistanciaMinima(Dados *dados){
+int calculaDistanciaMinima(Dados *dados){
     int i, j;
     for(i = dados->N - 1; i >= 0; i--){
         for(j = dados->M - 1; j >= 0; j--){
@@ -65,9 +68,10 @@ void calculaDistanciaMinima(Dados *dados){
             }
         }
     }
+    return dados->distanciaMinima[0][0];
 }
 
-void calculaQuantidadeCaminho(Dados *dados){
+int calculaQuantidadeCaminho(Dados *dados){
     int i, j;
     for(i = dados->N - 1; i >= 0; i--){
         for(j = dados->M - 1; j >= 0; j--){
@@ -90,65 +94,7 @@ void calculaQuantidadeCaminho(Dados *dados){
             }
         }
     }
-}
-
-void imprimeCaminhos(Dados *dados){
-    Celula **caminho;
-    caminho = (Celula**)malloc(dados->N * sizeof(Celula*));
-    for (int i = 0; i < dados->N; i++){
-        caminho[i] = (Celula*)calloc(dados->M, sizeof(Celula));
-        for (int j = 0; j < dados->M; j++){
-            caminho[i][j].i = -1;
-            caminho[i][j].i2 = -1;
-            caminho[i][j].j = -1;
-            caminho[i][j].j2 = -1;
-        }
-    }
-    for(int i = 0; i < dados->N ; i++){
-        for(int j = 0; j < dados->M; j++){
-            if (i == dados->N - 1 && j == dados->M - 1){
-                caminho[i][j].i = -2;
-                caminho[i][j].j = -2;
-            }else if (i == dados->M - 1 && j < dados->M - 1){
-                caminho[i][j].i = i;
-                caminho[i][j].j = j + 1;
-            }else if (i < dados->M - 1 && j == dados->M - 1){
-                caminho[i][j].i = i + 1;
-                caminho[i][j].j = j;
-            }else{
-                if (i != dados->N - 1 && j != dados->M - 1){
-                    if(dados->distanciaMinima[i][j + 1] < dados->distanciaMinima[i + 1][j]){
-                        caminho[i][j].i = i;
-                        caminho[i][j].j = j + 1;
-                    }else if(dados->distanciaMinima[i + 1][j] < dados->distanciaMinima[i][j + 1]){
-                        caminho[i][j].i = i + 1;
-                        caminho[i][j].j = j;
-                    }else{
-                        caminho[i][j].i = i;
-                        caminho[i][j].j = j + 1;
-                        caminho[i][j].i2 = i + 1;
-                        caminho[i][j].j2 = j;
-                    }
-                }
-            }
-        }
-    }
-
-    char *stringCamninhos = (char*)malloc(sizeof(char));
-
-    imprimeCaminhosAux(dados, stringCamninhos, caminho, 0, 0);
-    puts("\n");
-}
-
-void imprimeCaminhosAux(Dados *dados, char* caminhos, Celula** caminho, int linha, int coluna){
-    printf("(%d, %d) ", linha, coluna);
-    if (caminho[linha][coluna].i == -2){
-        return;
-    }
-    imprimeCaminhosAux(dados, caminhos, caminho, caminho[linha][coluna].i, caminho[linha][coluna].j);
-    if (caminho[linha][coluna].i2 != -1){
-        imprimeCaminhosAux(dados, caminhos, caminho, caminho[linha][coluna].i2, caminho[linha][coluna].j2);
-    }
+    return dados->quantidadeCaminho[0][0];
 }
 
 bool gerarCasoTeste(char nomeArquivoTeste[], int N, int M, int numeroMinimo, int numeroMaximo){
@@ -173,4 +119,54 @@ bool gerarCasoTeste(char nomeArquivoTeste[], int N, int M, int numeroMinimo, int
 
     fclose(file);
     return true;
+}
+
+void imprimerCaminho(Dados *dados){
+    int caminhosMostrados = 0;
+    imprimerCaminhoInterno(dados, "", &caminhosMostrados, 0, 0);
+}
+
+void imprimerCaminhoInterno(Dados *dados, char *caminho, int *caminhosMostrados, int linha, int coluna){
+    if((*caminhosMostrados) >= 20){
+        return;
+    }
+    if(linha == dados->N - 1 && coluna == dados->M - 1){
+        printf("%s(%d,%d)\n", caminho, linha, coluna);
+        (*caminhosMostrados)++;
+    }
+    else{
+        char aux1[20000] = "";
+        char aux2[100] = "";
+        char l[10];
+        char c[10];
+        sprintf(l, "%d", linha);
+        sprintf(c, "%d", coluna);
+        strcpy(aux1, "");
+        strcpy(aux2, "");
+        strcpy(aux1, caminho);
+        strcat(aux2, "(");
+        strcat(aux2, l);
+        strcat(aux2, ",");
+        strcat(aux2, c);
+        strcat(aux2, ")->");
+        strcat(aux1, aux2);
+        if(linha == dados->N - 1){
+            imprimerCaminhoInterno(dados, aux1, caminhosMostrados, linha, coluna + 1);
+        }
+        else if(coluna == dados->M - 1){
+            imprimerCaminhoInterno(dados, aux1, caminhosMostrados, linha + 1, coluna);
+        }
+        else{
+            if(dados->distanciaMinima[linha][coluna + 1] < dados->distanciaMinima[linha + 1][coluna]){
+                imprimerCaminhoInterno(dados, aux1, caminhosMostrados, linha, coluna + 1);
+            }
+            else if(dados->distanciaMinima[linha + 1][coluna] < dados->distanciaMinima[linha][coluna + 1]){
+                imprimerCaminhoInterno(dados, aux1, caminhosMostrados, linha + 1, coluna);;
+            }
+            else{
+                imprimerCaminhoInterno(dados, aux1, caminhosMostrados, linha + 1, coluna);
+                imprimerCaminhoInterno(dados, aux1, caminhosMostrados, linha, coluna + 1);
+            }
+        }
+    }
 }

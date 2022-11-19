@@ -25,12 +25,11 @@ void inicializaMatriz(Dados *dados, int N, int M);
 
 void inserirDistancia(Dados *dados, int distancia, int i, int j);
 
-void calculaDistanciaMinima(Dados *dados);
+int calculaDistanciaMinima(Dados *dados);
 
-void calculaQuantidadeCaminho(Dados *dados);
+int calculaQuantidadeCaminho(Dados *dados);
 
 bool gerarCasoTeste(char nomeArquivoTeste[], int N, int M, int numeroMinimo, int numeroMaximo);
 
-void imprimeCaminhos(Dados *dados);
+void imprimerCaminho(Dados *dados);
 
-void imprimeCaminhosAux(Dados *dados, char* caminhos, Celula** caminho, int linha, int coluna);
