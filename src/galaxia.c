@@ -53,7 +53,7 @@ int calculaDistanciaMinima(Dados *dados){
             distanciaMinima[i][j] = dados->grid[i][j];
         }
     }
-    calculaDistanciaMinimaInterno(&distanciaMinima, 0, 0, dados->N - 1, dados->N - 1);
+    calculaDistanciaMinimaInterno(&distanciaMinima, 0, 0, dados->N - 1, dados->M - 1);
     return distanciaMinima[0][0];
 }
 
@@ -73,7 +73,7 @@ int calculaDistanciaMinimaParada(Dados *dados, int linha, int coluna){
             distanciaMinima[i][j] = dados->grid[i][j];
         }
     }
-    calculaDistanciaMinimaInterno(&distanciaMinima, linha -1, coluna -1, dados->N - 1, dados->N - 1);
+    calculaDistanciaMinimaInterno(&distanciaMinima, linha -1, coluna -1, dados->N - 1, dados->M - 1);
     calculaDistanciaMinimaInterno(&distanciaMinima, 0, 0, linha -1, coluna -1);
     return distanciaMinima[0][0];
 }
@@ -118,8 +118,8 @@ int calculaQuantidadeCaminho(Dados *dados){
             distanciaMinima[i][j] = dados->grid[i][j];
         }
     }
-    calculaDistanciaMinimaInterno(&distanciaMinima, 0, 0, dados->N - 1, dados->N - 1);
-    calculaQuantidadeCaminhoInterno(dados, &quantidadeCaminho, &distanciaMinima,  0, 0, dados->N - 1, dados->N - 1);
+    calculaDistanciaMinimaInterno(&distanciaMinima, 0, 0, dados->N - 1, dados->M - 1);
+    calculaQuantidadeCaminhoInterno(dados, &quantidadeCaminho, &distanciaMinima,  0, 0, dados->N - 1, dados->M - 1);
     return quantidadeCaminho[0][0];
 }
 
@@ -142,9 +142,9 @@ int calculaQuantidadeCaminhoParada(Dados *dados, int linha, int coluna){
             distanciaMinima[i][j] = dados->grid[i][j];
         }
     }
-    calculaDistanciaMinimaInterno(&distanciaMinima, linha -1, coluna -1, dados->N - 1, dados->N - 1);
+    calculaDistanciaMinimaInterno(&distanciaMinima, linha -1, coluna -1, dados->N - 1, dados->M - 1);
     calculaDistanciaMinimaInterno(&distanciaMinima, 0, 0, linha -1, coluna -1);
-    calculaQuantidadeCaminhoInterno(dados, &quantidadeCaminho, &distanciaMinima, linha -1, coluna -1, dados->N - 1, dados->N - 1);
+    calculaQuantidadeCaminhoInterno(dados, &quantidadeCaminho, &distanciaMinima, linha -1, coluna -1, dados->N - 1, dados->M - 1);
     calculaQuantidadeCaminhoInterno(dados, &quantidadeCaminho, &distanciaMinima,  0, 0, linha -1, coluna -1);
     return quantidadeCaminho[0][0];
 }
@@ -219,7 +219,7 @@ void imprimerCaminho(Dados *dados){
             distanciaMinima[i][j] = dados->grid[i][j];
         }
     }
-    calculaDistanciaMinimaInterno(&distanciaMinima, 0, 0, dados->N - 1, dados->N - 1);
+    calculaDistanciaMinimaInterno(&distanciaMinima, 0, 0, dados->N - 1, dados->M - 1);
     imprimerCaminhoInterno(dados, "", &distanciaMinima, &caminhosMostrados, 0, 0, -1, -1);
 }
 
@@ -240,7 +240,7 @@ void imprimerCaminhoParada(Dados *dados, int linha, int coluna){
             distanciaMinima[i][j] = dados->grid[i][j];
         }
     }
-    calculaDistanciaMinimaInterno(&distanciaMinima, linha -1, coluna -1, dados->N - 1, dados->N - 1);
+    calculaDistanciaMinimaInterno(&distanciaMinima, linha -1, coluna -1, dados->N - 1, dados->M - 1);
     calculaDistanciaMinimaInterno(&distanciaMinima, 0, 0, linha -1, coluna -1);
 
     imprimerCaminhoInterno(dados, "", &distanciaMinima, &caminhosMostrados, 0, 0, linha -1, coluna -1);
